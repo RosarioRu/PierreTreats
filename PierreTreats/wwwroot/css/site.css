@@ -9,18 +9,18 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: #3c6ba1;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
+  background-color: #5797d6;
   border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #1b6ec2;
+  background-color: #5797d6;
   border-color: #1861ac;
 }
 
@@ -36,10 +36,10 @@ html {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #d4c9c9;
 }
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #d4c9c9;
 }
 
 .box-shadow {

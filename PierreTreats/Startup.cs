@@ -1,57 +1,71 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PierreTreats.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;//gives startup class access to identity
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace PierreTreats
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IWebHostEnvironment env)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-        }
+      var builder = new ConfigurationBuilder()
+          .SetBasePath(env.ContentRootPath)
+          .AddJsonFile("appsettings.json");
+      Configuration = builder.Build();
     }
+
+    public IConfigurationRoot Configuration { get; set; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddMvc();
+      //below in AddDbContext method is a 'dependency injection' that allows us to set the value of _db to ToDoListContext in our ItemsController file.
+      services.AddEntityFrameworkMySql()
+        .AddDbContext<PierreTreatsContext>(options => options 
+        .UseMySql(Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(Configuration["ConnectionStrings:DefaultConnection"])));
+      
+      //tells Identity what we want to use as a model for our user with this line below:
+      services.AddIdentity<ApplicationUser, IdentityRole>() 
+        .AddEntityFrameworkStores<PierreTreatsContext>()
+        .AddDefaultTokenProviders();
+
+      services.Configure<IdentityOptions>(options =>
+      {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 0;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredUniqueChars = 0;
+      });
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+      app.UseDeveloperExceptionPage();
+      app.UseAuthentication();
+      app.UseRouting();
+      app.UseAuthorization();
+
+      app.UseEndpoints(routes =>
+      {
+        routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+      });
+
+      app.UseStaticFiles(); //THIS IS NEW AND CONFIGURES APP TO USE STATIC CONTENT
+
+      app.Run(async (context) =>
+      {
+        await context.Response.WriteAsync("Oops!");
+      });
+
+      
+    }
+
+  }
 }
