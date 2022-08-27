@@ -29,7 +29,7 @@ namespace PierreTreats.Controllers
     [HttpGet]
     public ActionResult Create()
     {
-      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       return View();
     }
 
@@ -45,6 +45,18 @@ namespace PierreTreats.Controllers
       }
       return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public ActionResult Details(int id)
+    { 
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
+      var thisTreat = _db.Treats
+        .Include(Treat => Treat.JoinEntities)
+        .ThenInclude(join => join.Flavor)
+        .FirstOrDefault(Treat => Treat.TreatId == id);
+      return View(thisTreat);
+    }
+
     
   }
 }
