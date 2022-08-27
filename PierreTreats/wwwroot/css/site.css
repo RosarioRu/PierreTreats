@@ -56,16 +56,28 @@ button.accept-policy {
 html {
   position: relative;
   min-height: 100%;
+  border: 10px solid purple; /*testing something!!!!!!!!!!!!!!!!! */
 }
 
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  border: 10px solid red; /*testing something!!!!!!!!!!!!!!!!!!!!! */
+  
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  border: 10px solid black; /*testing something!!!!!!!!!!!!!!!!!!!!!!*/
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 30px; /* Vertically center the text there */
+}
+
+border-top footer text-muted {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 40px; /* Vertically center the text there */
 }
