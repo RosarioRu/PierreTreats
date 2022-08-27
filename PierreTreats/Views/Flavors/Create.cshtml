@@ -1,0 +1,32 @@
+@{
+  Layout = "_Layout";
+}
+
+@model PierreTreats.Models.Flavor 
+
+<br>
+<h1>Add a Flavor</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">@Html.LabelFor(model => model.FlavorName)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      @using (Html.BeginForm())
+      {
+        <br>
+        <td>
+          @Html.TextBoxFor(model => model.FlavorName)
+        </td> 
+        <td>
+          <input type="submit" value="Add flavor to system" class="btn btn-outline-secondary" />
+        </td>
+      }
+      </tr>
+    </tbody>
+  </table>
+  
+
+<br><p>@Html.ActionLink("Back to Flavor List", "Index")</p> 

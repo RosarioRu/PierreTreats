@@ -1,0 +1,39 @@
+@{
+  Layout = "_Layout";
+}
+
+@model PierreTreats.Models.Treat 
+
+<br>
+<h1>Add a Treat</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">@Html.LabelFor(model => model.TreatName)</th>
+        <th scope="col">@Html.LabelFor(model => model.TreatPrice)</th>
+        <th scope="col">@Html.Label("Select a flavor for this treat")</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      @using (Html.BeginForm())
+      {
+        <br>
+        <td>
+          @Html.TextBoxFor(model => model.TreatName)
+        </td> 
+        <td> 
+          @Html.TextBoxFor(model => model.TreatPrice)
+        </td>
+        <td> 
+          @Html.DropDownList("FlavorId","none")
+        </td>
+        <td>
+          <input type="submit" value="Add treat to system" class="btn btn-outline-secondary" />
+        </td>
+      }
+      </tr>
+    </tbody>
+  </table>
+  
+<br><p>@Html.ActionLink("Back to Treat List", "Index")</p> 
