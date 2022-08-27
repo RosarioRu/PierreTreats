@@ -13,15 +13,15 @@ namespace PierreTreats.Models
     }
 
     [Display(Name = "Id")]
-    public int TreatId { get; set }
+    public int TreatId { get; set; }
 
     [Display(Name = "Name")]
     public string TreatName { get; set; }
 
     [Display(Name = "Price")]
-    public int TreatPrice { get; set }
+    public int TreatPrice { get; set; }
 
-    public virtual ICollection<FlavorTreat> JoinEntities { get; }
+    public virtual ICollection<FlavorTreat> JoinEntities { get; set; }
     
   }
 }
