@@ -1,4 +1,4 @@
-using System;
+using System; 
 using System.Collections.Generic; 
 using System.ComponentModel.DataAnnotations; 
 
@@ -15,7 +15,7 @@ namespace PierreTreats.Models
     [Display(Name = "Id")]
     public int TreatId { get; set; }
 
-    [Display(Name = "Name")]
+    [Display(Name = "Treat Name")]
     public string TreatName { get; set; }
 
     [Display(Name = "Price")]
