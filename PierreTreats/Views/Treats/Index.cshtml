@@ -6,16 +6,14 @@
 }
 
 <div class="text-center">
-  <h1 class="display-4">Pierre's Treats</h1>
-
 
   @if (@Model.Count == 0)
   {
-    <br><br><h3>There are no treats in the system</h3>
+    <br><br><h4>There are no treats in the system</h4>
   }
   else 
   {
-  <br><h1>Pierre's Treats</h1>
+  <br><h5>Pierre's Treats</h5>
   <table class="table">
     <thead>
       <tr>
@@ -39,7 +37,7 @@
   </table>
   }
 
-  <br><h3>@Html.ActionLink("Add a Treat", "Create", "Treats")</h3>
-  <h3>@Html.ActionLink("See all Flavors", "Index", "Flavors")</h3>
+  <br><h5>@Html.ActionLink("Add a Treat", "Create", "Treats")</h5>
+  <h5>@Html.ActionLink("See Flavors", "Index", "Flavors")</h5>
 
 </div>
