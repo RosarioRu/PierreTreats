@@ -12,12 +12,13 @@ namespace PierreTreats.Models
       this.JoinEntities = new HashSet<FlavorTreat>();
     }
 
+    [Display(Name = "ID")]
+    public int FlavorId { get; set; }
+
     [Display(Name = "Flavor Name")]
     public string FlavorName { get; set; }
 
-    //more properties
-
-    public virtual ICollection<FlavorTreat> JoinEntities { get; }
+    public virtual ICollection<FlavorTreat> JoinEntities { get; set; }
     
   }
 }
