@@ -80,6 +80,24 @@ namespace PierreTreats.Controllers
       return RedirectToAction("Index");
     }
 
+    [HttpGet]
+    public ActionResult Delete(int id)
+    {
+      var thisTreat = _db.Treats.FirstOrDefault(Treat => Treat.TreatId == id);
+      return View(thisTreat);
+    }
+
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var treatToDelete = _db.Treats.FirstOrDefault(Treat => Treat.TreatId == id);
+      _db.Treats.Remove(treatToDelete);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    
     
   }
 }
