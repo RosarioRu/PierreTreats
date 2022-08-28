@@ -28,8 +28,11 @@
     {
       <tr>
         <td>@Html.ActionLink($"{Treat.TreatName}", "Details", new {id=Treat.TreatId})</td> 
-        <td>flavors will go here</td>
-        @* <td>@Html.ActionLink("", "Edit", new {id=($"{Treat.TreatId}")}, new {@class="fas fa-pencil-alt" })</td> *@
+        <td>@foreach(FlavorTreat flavorTreat in Treat.JoinEntities)
+          {
+            <p>@($"{flavorTreat.Flavor.FlavorName}")</p>
+          }
+        </td>
         <td>@Html.ActionLink("", "Delete", new {id=($"{Treat.TreatId}")}, new {@class="fa-solid fa-trash-can"})</td>
       </tr>
     }
