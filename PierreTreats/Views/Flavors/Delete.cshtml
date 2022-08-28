@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+
+@model PierreTreats.Models.Flavor
+
+<h5>Are you sure you want to delete <strong>@Model.FlavorName</strong> from the system?</h5>
+<br>
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Yes, I'm sure" />
+}
+<br>
+@Html.ActionLink("Do not delete", "Index")
