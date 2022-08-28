@@ -21,6 +21,9 @@ namespace PierreTreats.Models
     [Display(Name = "Price")]
     public int TreatPrice { get; set; }
 
+    public virtual ApplicationUser User { get; set; }
+
+
     public virtual ICollection<FlavorTreat> JoinEntities { get; set; }
     
   }
