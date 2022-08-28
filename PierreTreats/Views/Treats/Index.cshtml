@@ -1,5 +1,5 @@
 @using PierreTreats.Models;
-@model List<PierreTreats.Models.Treat>;
+@model IEnumerable<PierreTreats.Models.Treat>
 
 @{
     ViewData["Title"] = "Treats Page";
@@ -7,11 +7,7 @@
 
 <div class="text-center">
 
-  @if (@Model.Count == 0)
-  {
-    <br><br><h4>There are no treats in the system</h4>
-  }
-  else 
+  @if (Model.Any())
   {
   <br><h5>Pierre's Treats</h5>
   <table class="table">
@@ -38,6 +34,10 @@
     }
     </tbody>
   </table>
+  }
+  else
+  {
+    <br><br><h4>There are no treats in the system</h4>
   }
 
   <br><h5>@Html.ActionLink("Add a Treat", "Create", "Treats")</h5>
