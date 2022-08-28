@@ -1,19 +1,27 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc; 
 using Microsoft.AspNetCore.Mvc.Rendering; //need this for SelectList.
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq; 
-using PierreTreats.Models;
 using Microsoft.EntityFrameworkCore; 
+using PierreTreats.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq; //this allows us to use ToList() 
+using System.Security.Claims;
+using System.Threading.Tasks; 
 
 namespace PierreTreats.Controllers
 {
+  [Authorize]
   public class FlavorsController : Controller
   {
     
     private readonly PierreTreatsContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public FlavorsController(PierreTreatsContext db) 
+    public FlavorsController(UserManager<ApplicationUser> userManager, PierreTreatsContext db) 
     {
+      _userManager = userManager;
       _db = db;
     }
 

@@ -1,29 +1,39 @@
-using Microsoft.AspNetCore.Mvc.Rendering; //need this for SelectList.
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc.Rendering; //need this for SelectList.
 using Microsoft.EntityFrameworkCore; 
 using PierreTreats.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq; //this allows us to use ToList() 
-using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 
 
 namespace PierreTreats.Controllers
 {
+  [Authorize]
   public class TreatsController : Controller
   {
     private readonly PierreTreatsContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public TreatsController(PierreTreatsContext db) 
+    public TreatsController(UserManager<ApplicationUser> userManager, PierreTreatsContext db) 
     {
+      _userManager = userManager;
       _db = db;
     } 
 
-    //below we are able to access all Treat(s) in list form by usign LINQ ToList()
-    //_db's value is db, which is an instance of DbContext class. It holds reference to te database.
-    public ActionResult Index()
+
+    [AllowAnonymous]
+    public async Task<ActionResult> Index()
     {
-      return View(_db.Treats.ToList());
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userTreats);
     }
 
     [HttpGet]
@@ -34,18 +44,22 @@ namespace PierreTreats.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Treat treatSubmittedByForm, int FlavorId)
+    public async Task<ActionResult> Create(Treat Treat, int FlavorId)
     {
-      _db.Treats.Add(treatSubmittedByForm);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      Treat.User = currentUser;
+      _db.Treats.Add(Treat);
       _db.SaveChanges();
       if (FlavorId != 0)
       {
-        _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = treatSubmittedByForm.TreatId });
-        _db.SaveChanges();
+        _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = Treat.TreatId });
       }
+      _db.SaveChanges();
       return RedirectToAction("Index");
-    }
+}
 
+    [AllowAnonymous]
     [HttpGet]
     public ActionResult Details(int id)
     { 
