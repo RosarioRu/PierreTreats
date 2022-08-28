@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Rendering; //need this for SelectList.
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq; 
@@ -35,6 +36,17 @@ namespace PierreTreats.Controllers
       _db.Flavors.Add(flavorSubmittedByForm);
       _db.SaveChanges();
       return RedirectToAction("Index");
+    }
+
+    [HttpGet] 
+    public ActionResult Details(int id)
+    {
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+      var thisFlavor = _db.Flavors
+        .Include(Flavor => Flavor.JoinEntities)
+        .ThenInclude(join => join.Treat)
+        .FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      return View(thisFlavor);
     }
 
   }

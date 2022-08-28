@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout"; 
+}
+
+@model PierreTreats.Models.Flavor
+
+@if (@Model.JoinEntities.Count == 0)
+{
+    <p>There are no treats with this flavor yet.</p>
+}
+else
+{
+  <br>
+  <h5>Treats associated with <strong>@Model.FlavorName</strong></h5>
+  <ul>
+  @foreach(FlavorTreat flavorTreat in Model.JoinEntities)
+  {
+    <p>@($"{flavorTreat.Treat.TreatName}")</p>
+  }
+  </ul>
+}
+      
