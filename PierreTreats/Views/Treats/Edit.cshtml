@@ -1,0 +1,56 @@
+@{
+  Layout = "_Layout";
+}
+
+@model PierreTreats.Models.Treat
+
+<br>
+<h3>Edit @Model.TreatName Recipe Below</h3>
+<br>
+@using (Html.BeginForm())
+{
+<table class="table">
+  <tbody>
+    @Html.HiddenFor(model => model.TreatId)
+    <tr>
+      <td>
+        @Html.LabelFor(model => model.TreatName)
+        @Html.EditorFor(model => model.TreatName)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        @Html.LabelFor(model => model.TreatPrice)
+        @Html.EditorFor(model => model.TreatPrice)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        @if (@Model.JoinEntities.Count == 0)
+        {
+          <p>No flavor tags assigned</p>
+        }
+        else 
+        {
+          @Html.Label("Current Flavor Tags:")
+          @foreach (var join in Model.JoinEntities)
+          {
+            <p>@join.Flavor.FlavorName</p>
+          }
+        }
+        @Html.Label("Tag a flavor to this recipe")
+        @Html.DropDownList("FlavorId", "none")
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="submit" value="Update Treat Details" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+}
+
+
+<br>
+<p>@Html.ActionLink("Make No changes", "Index")</p>
