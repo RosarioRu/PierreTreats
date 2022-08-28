@@ -68,6 +68,18 @@ namespace PierreTreats.Controllers
       return View(treatToEdit);
     }
 
+    [HttpPost]
+    public ActionResult Edit(Treat treatToEdit, int FlavorId)
+    {
+      if (FlavorId != 0)
+      {
+        _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = treatToEdit.TreatId});
+      }
+      _db.Entry(treatToEdit).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
     
   }
 }
