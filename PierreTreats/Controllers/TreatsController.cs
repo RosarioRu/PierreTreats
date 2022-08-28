@@ -57,6 +57,17 @@ namespace PierreTreats.Controllers
       return View(thisTreat);
     }
 
+    [HttpGet]
+    public ActionResult Edit(int id)
+    { 
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
+      var treatToEdit = _db.Treats
+        .Include(Treat => Treat.JoinEntities)
+        .ThenInclude(join => join.Flavor)
+        .FirstOrDefault(Treat => Treat.TreatId == id);
+      return View(treatToEdit);
+    }
+
     
   }
 }
