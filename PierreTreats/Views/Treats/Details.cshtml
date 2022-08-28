@@ -13,8 +13,7 @@
 @if (@Model.JoinEntities.Count == 0)
 {
   <br>
-  <p>This Treat has no flavor tags yet.</p>
-  <p>@Html.ActionLink($"Add one!", "Edit", new {id=Model.TreatId})</p>
+  <p>This Treat has no flavor tags yet. @Html.ActionLink($"Add one!", "Edit", new {id=Model.TreatId})</p>
 }
 else
 {
@@ -31,5 +30,6 @@ else
       }<br>
     }
   </ul>
-  @Html.ActionLink("Edit Recipe", "Edit", new {id=($"{Model.TreatId}")})
 }
+<br>
+@Html.ActionLink("Edit Treat Details", "Edit", new {id=($"{Model.TreatId}")})
