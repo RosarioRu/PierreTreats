@@ -12,10 +12,8 @@ using System.Threading.Tasks;
 
 namespace PierreTreats.Controllers
 {
-  [Authorize]
   public class FlavorsController : Controller
   {
-    
     private readonly PierreTreatsContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
 
@@ -32,12 +30,14 @@ namespace PierreTreats.Controllers
       return View(_db.Flavors.ToList()); 
     } 
 
+    [Authorize] 
     [HttpGet]
     public ActionResult Create()
     {
       return View();
     }
 
+    [Authorize] 
     [HttpPost] 
     public ActionResult Create(Flavor flavorSubmittedByForm)
     {
@@ -55,6 +55,24 @@ namespace PierreTreats.Controllers
         .ThenInclude(join => join.Treat)
         .FirstOrDefault(Flavor => Flavor.FlavorId == id);
       return View(thisFlavor);
+    }
+
+    [Authorize]
+    [HttpGet]
+    public ActionResult Delete(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      return View(thisFlavor);
+    }
+
+    [Authorize]
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var flavorToDelete = _db.Flavors.FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      _db.Flavors.Remove(flavorToDelete);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
   }
