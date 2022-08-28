@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace PierreTreats.Controllers
 {
-  [Authorize]
   public class TreatsController : Controller
   {
     private readonly PierreTreatsContext _db;
@@ -26,16 +25,12 @@ namespace PierreTreats.Controllers
       _db = db;
     } 
 
-
-    [AllowAnonymous]
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userTreats);
+      return View(_db.Treats.ToList());
     }
 
+    [Authorize] 
     [HttpGet]
     public ActionResult Create()
     {
@@ -43,6 +38,7 @@ namespace PierreTreats.Controllers
       return View();
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Create(Treat Treat, int FlavorId)
     {
@@ -57,9 +53,8 @@ namespace PierreTreats.Controllers
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
-}
-
-    [AllowAnonymous]
+    }
+    
     [HttpGet]
     public ActionResult Details(int id)
     { 
@@ -71,6 +66,7 @@ namespace PierreTreats.Controllers
       return View(thisTreat);
     }
 
+    [Authorize]
     [HttpGet]
     public ActionResult Edit(int id)
     { 
@@ -82,6 +78,7 @@ namespace PierreTreats.Controllers
       return View(treatToEdit);
     }
 
+    [Authorize]
     [HttpPost]
     public ActionResult Edit(Treat treatToEdit, int FlavorId)
     {
@@ -94,6 +91,7 @@ namespace PierreTreats.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize]
     [HttpGet]
     public ActionResult Delete(int id)
     {
@@ -101,7 +99,7 @@ namespace PierreTreats.Controllers
       return View(thisTreat);
     }
 
-
+    [Authorize]
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
@@ -111,6 +109,7 @@ namespace PierreTreats.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize]
     [HttpPost, ActionName("DeleteFlavorTreat")]
     public ActionResult DetailsAgain(int joinId)
     {

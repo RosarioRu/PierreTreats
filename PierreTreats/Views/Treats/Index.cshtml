@@ -20,16 +20,16 @@
       </tr>
     </thead>
     <tbody>
-    @foreach(Treat Treat in Model) 
+    @foreach(Treat treat in Model) 
     {
       <tr>
-        <td>@Html.ActionLink($"{Treat.TreatName}", "Details", new {id=Treat.TreatId})</td> 
-        <td>@foreach(FlavorTreat flavorTreat in Treat.JoinEntities)
+        <td>@Html.ActionLink($"{treat.TreatName}", "Details", new {id=treat.TreatId})</td> 
+        <td>@foreach(FlavorTreat flavorTreat in treat.JoinEntities)
           {
             <p>@($"{flavorTreat.Flavor.FlavorName}")</p>
           }
         </td>
-        <td>@Html.ActionLink("", "Delete", new {id=($"{Treat.TreatId}")}, new {@class="fa-solid fa-trash-can"})</td>
+        <td>@Html.ActionLink("", "Delete", new {id=($"{treat.TreatId}")}, new {@class="fa-solid fa-trash-can"})</td>
       </tr>
     }
     </tbody>
