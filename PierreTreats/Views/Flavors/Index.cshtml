@@ -18,8 +18,6 @@
     <thead>
       <tr>
         <th scope="col">Flavor Name</th>
-        <th scope="col">Treat/s</th>
-        @* <th scope="col">Edit T</th> *@
         <th scope="col">Delete Flavor</th>
       </tr>
     </thead>
@@ -27,8 +25,7 @@
     @foreach(Flavor Flavor in Model) 
     {
       <tr>
-        <td>@Flavor.FlavorName</td> 
-        <td>associated treats will go here</td>
+        <td>@Html.ActionLink($"{Flavor.FlavorName}", "Details", new {id=Flavor.FlavorId})</td> 
         <td>@Html.ActionLink("", "Delete", new {id=($"{Flavor.FlavorId}")}, new {@class="fa-solid fa-trash-can"})</td>
       </tr>
     }
