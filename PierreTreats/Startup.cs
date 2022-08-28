@@ -1,11 +1,12 @@
-using PierreTreats.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;//gives startup class access to identity
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using PierreTreats.Models;
+
 
 namespace PierreTreats
 {
@@ -24,7 +25,6 @@ namespace PierreTreats
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
-      //below in AddDbContext method is a 'dependency injection' that allows us to set the value of _db to ToDoListContext in our ItemsController file.
       services.AddEntityFrameworkMySql()
         .AddDbContext<PierreTreatsContext>(options => options 
         .UseMySql(Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(Configuration["ConnectionStrings:DefaultConnection"])));
